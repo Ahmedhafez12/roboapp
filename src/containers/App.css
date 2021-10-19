@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
 .App {
   text-align: center;
 }
@@ -26,6 +27,16 @@
 
 .App-link {
   color: #61dafb;
+}
+body {
+  background-image : linear-gradient(to right, yellow, orange);
+}
+h1 {
+  font-family: 'ZCOOL KuaiLe', cursive;
+  font-size: 72px;
+  background: -webkit-linear-gradient(right, red, black);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @keyframes App-logo-spin {
