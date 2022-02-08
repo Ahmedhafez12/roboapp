@@ -7,48 +7,44 @@ import SearchBar from '../components/SearchBar';
 import Scroll from '../components/Scroll';
 import ErrorBoundaries from '../components/ErrorBoundaries';
 import { connect } from 'react-redux';
-//import { searchRobots } from '../reducer';
-import { setSearchField } from '../actions'
+//import { searchRobots, requestRobots} from '../reducer';
+import { setSearchField, requestRobots} from '../actions';
 
 //import 'tachyons';
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    searchField: state.searchField
+    searchField: state.searchRobots.searchField, 
+    robots: state.requestRobots.robots,
+    isPending: state.requestRobots.isPending, 
+    error: state.requestRobots.error
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return{
-    onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+    onSearchChange: (event) => dispatch(setSearchField(event.target.value)), 
+    onRequestRobots: () => dispatch(requestRobots())
   }
 }
 
 
 class App extends Component {
-  constructor(){ 
-    super();
-    this.state = {
-      robots: []
-    }
-  }
 
   componentDidMount(){
-    fetch('https://jsonplaceholder.typicode.com/users')
-    .then(response => response.json())
-    .then(users => this.setState({robots: users}));
+    this.props.onRequestRobots();
   }
 
   render(){ 
-    var {robots} = this.state; 
-    var {searchField, onSearchChange} = this.props;  
+    //console.log(requestRobots());
+   // var {robots} = this.state; 
+    var {searchField, onSearchChange, robots, isPending} = this.props;  
     var filterRobotics = robots.filter(robot =>{
       return robot.name.toLowerCase().includes(searchField.toLowerCase());
     })
-       return !robots.length?
+       return isPending?
        <h1> Loading </h1>:
-       <body>
-          <div className='tc'>
+        <div className='tc'>
               <h1 className='f1 navy'> ANTIROBOTICS</h1>
               <SearchBar searchChange = {onSearchChange}/> 
               <Scroll> 
@@ -56,8 +52,7 @@ class App extends Component {
                   <RoboticParent robots = {filterRobotics}/>
                 </ErrorBoundaries>
               </Scroll> 
-          </div> 
-        </body>
+        </div> 
   }
 }
 

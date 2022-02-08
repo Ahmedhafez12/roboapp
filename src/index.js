@@ -5,15 +5,18 @@ import App from './containers/App.js';
 // import lucas from './lucas.js';
 //import RoboticParent from './RoboticParent.js';
 //import { robots } from './robots'; 
-import { searchRobots } from './reducer';
+import { searchRobots, requestRobots } from './reducer';
+//import { setSearchField , requestRobots} from './actions';
 import { createLogger } from 'redux-logger'
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk';
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import reportWebVitals from './reportWebVitals';
 import 'tachyons';
 
 const logger = createLogger(); 
-const store = createStore(searchRobots, applyMiddleware(logger) ); 
+const reducers = combineReducers({searchRobots, requestRobots}); 
+const store = createStore(reducers, applyMiddleware(thunkMiddleware, logger)); 
 
 
 
